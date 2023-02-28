@@ -25,62 +25,71 @@ class _ListHomePageState extends State<ListHomePage> {
       ),
       body: Stack(
         children: [
-       
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                currentNumber += 1;
-                print(currentNumber);
-              });
-            },
-            child: const Text('Add'),
-          ),
-          Positioned(
-            child: AnimationLimiter(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return AnimationConfiguration.staggeredList(
-                    position: currentNumber,
-                    delay: const Duration(
-                      milliseconds: 500,
+          AnimationLimiter(
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                return AnimationConfiguration.staggeredList(
+                  position: currentNumber,
+                  delay: const Duration(
+                    milliseconds: 500,
+                  ),
+                  child: SlideAnimation(
+                    duration: const Duration(
+                      milliseconds: 2500,
                     ),
-                    child: SlideAnimation(
-                      duration: const Duration(
-                        milliseconds: 2500,
+                    curve: Curves.fastLinearToSlowEaseIn,
+                    horizontalOffset: -300,
+                    verticalOffset: 300,
+                    child: Container(
+                      color: Colors.deepPurpleAccent,
+                      height: height / 10,
+                      width: width * .9,
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 15,
                       ),
-                      curve: Curves.fastLinearToSlowEaseIn,
-                      horizontalOffset: -300,
-                      verticalOffset: 300,
-                      child: Container(
-                        color: Colors.deepPurpleAccent,
-                        height: height / 10,
-                        width: width * .9,
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 15,
-                        ),
-                        child: Center(
-                          child: ListTile(
-                            title: Text('Items $currentNumber'),
+                      child: Center(
+                        child: ListTile(
+                          title: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Items $currentNumber'),
+                              InkWell(
+                                child: Icon(Icons.delete),
+                                onTap: () {
+                                 setState(() {
+                                    currentNumber -= 1;
+                                 });
+                                },
+                              ),
+                            ],
                           ),
+                          textColor: Colors.white,
                         ),
                       ),
                     ),
-                  );
-                },
-                itemCount: currentNumber,
-              ),
+                  ),
+                );
+              },
+              itemCount: currentNumber,
             ),
           ),
-             FloatingActionButton(onPressed:  () {
-              setState(() {
-                currentNumber += 1;
-                print(currentNumber);
-              });
-            },),
+          Positioned(
+            bottom: 25,
+            right: 25,
+            child: FloatingActionButton(
+              child: const Icon(Icons.plus_one),
+              onPressed: () {
+                setState(() {
+                  currentNumber += 1;
+                  print(currentNumber);
+                });
+              },
+            ),
+          ),
         ],
       ),
-      
     );
   }
 }
