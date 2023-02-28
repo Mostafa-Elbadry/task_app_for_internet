@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'home.dart';
+import 'list_home.dart';
+import 'mynavigator.dart';
 import 'register.dart';
 import 'share/cleanelevatedbutton.dart';
 import 'share/cleantextformfield.dart';
@@ -141,13 +142,9 @@ class _LoginPageState extends State<LoginPage> {
                       CleanElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const ListHomePage();
-                                },
-                              ),
+                            MyNavigator(
+                              context: context,
+                              widget: const ListHomePage(),
                             );
                           }
                         },
@@ -160,14 +157,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       OutlinedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return const RegisterPage();
-                              },
-                            ),
-                          );
+                          MyNavigator(
+                              context: context, widget: const RegisterPage());
                         },
                         style: OutlinedButton.styleFrom(
                           padding: EdgeInsets.symmetric(
