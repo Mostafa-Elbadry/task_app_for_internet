@@ -13,6 +13,12 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  bool isPassword = true;
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -40,7 +46,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
                       ),
-                      // style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ),
                 ),
@@ -58,41 +63,141 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: 10,
                     ),
                     // Text Form Field In padding For Design
-                    const CleanTextFormField(
+                    CleanTextFormField(
                       textInputType: TextInputType.name,
                       prefixIcon: Icons.person,
                       labelText: 'Full Name',
                       hintText: 'Enter Full Name',
-                      obscureText: false,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please Enter Your Name';
+                        }
+                        return null;
+                      },
+                      controller: nameController,
                     ),
-                    const CleanTextFormField(
+                    CleanTextFormField(
                       textInputType: TextInputType.emailAddress,
                       prefixIcon: Icons.email,
                       labelText: 'Email',
                       hintText: 'email@gmail.com',
-                      obscureText: false,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Enter your Email address';
+                        } else if (emailController.text.contains('a') ==
+                                false ||
+                            emailController.text.contains('.') == false) {
+                          return 'Enter valid Email address';
+                        }
+
+                        return null;
+                      },
+                      controller: emailController,
                     ),
-                    const CleanTextFormField(
+                    CleanTextFormField(
                       textInputType: TextInputType.phone,
                       prefixIcon: Icons.phone,
                       labelText: 'Phone',
                       hintText: 'Enter Your Phone',
-                      obscureText: false,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please Enter Your phone';
+                        } else if (value.length == 11) {
+                          return 'Phone Must be 11 number';
+                        }
+                        return null;
+                      },
+                      controller: phoneController,
                     ),
-                    const CleanTextFormField(
-                      textInputType: TextInputType.visiblePassword,
-                      prefixIcon: Icons.lock,
-                      labelText: 'Password',
-                      hintText: 'Enter Your Password',
-                      obscureText: true,
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 10,
+                      ),
+                      child: TextFormField(
+                        controller: passwordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: isPassword,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Enter Your Password';
+                          } else if (value.length < 8) {
+                            return 'Password Must be 8 characters';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPassword = !isPassword;
+                              });
+                            },
+                            icon: isPassword
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off),
+                          ),
+                          labelText: 'Password',
+                          hintText: 'Enter Your Password',
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                    const CleanTextFormField(
-                      textInputType: TextInputType.visiblePassword,
-                      prefixIcon: Icons.lock,
-                      labelText: 'Confirm PassWord',
-                      hintText: 'Enter Your Confirm PassWord',
-                      obscureText: true,
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 25,
+                        vertical: 10,
+                      ),
+                      child: TextFormField(
+                        controller: confirmPasswordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: isPassword,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Enter Your Password';
+                          } else if (value.length < 8) {
+                            return 'Password Must be 8 characters';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isPassword = !isPassword;
+                              });
+                            },
+                            icon: isPassword
+                                ? const Icon(Icons.visibility)
+                                : const Icon(Icons.visibility_off),
+                          ),
+                          labelText: 'Confirm PassWord',
+                          hintText: 'Enter Your Confirm PassWord',
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
+
                     // space for buttons
                     const SizedBox(
                       height: 10,
